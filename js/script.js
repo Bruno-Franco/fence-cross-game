@@ -16,17 +16,13 @@ window.onload = function () {
 	window.addEventListener('keydown', (e) => {
 		e.preventDefault()
 		if (e.code === 'ArrowUp') {
-			console.log('moving to the top')
-			game.player.directionY = -2
+			game.player.directionY = -3
 		} else if (e.code === 'ArrowDown') {
-			console.log('moving down')
-			game.player.directionY = 2
+			game.player.directionY = 3
 		} else if (e.code === 'ArrowLeft') {
-			console.log('moving left')
-			game.player.directionX = -2
+			game.player.directionX = -3
 		} else if (e.code === 'ArrowRight') {
-			console.log('moving right')
-			game.player.directionX = 2
+			game.player.directionX = 3
 		} else if (e.code === 'Space') {
 			console.log('SHOOT!!! ')
 		}
@@ -34,16 +30,12 @@ window.onload = function () {
 	window.addEventListener('keyup', (e) => {
 		e.preventDefault()
 		if (e.code === 'ArrowUp') {
-			console.log('moving to the top')
 			game.player.directionY = 0
 		} else if (e.code === 'ArrowDown') {
-			console.log('moving down')
 			game.player.directionY = 0
 		} else if (e.code === 'ArrowLeft') {
-			console.log('moving left')
 			game.player.directionX = 0
 		} else if (e.code === 'ArrowRight') {
-			console.log('moving right')
 			game.player.directionX = 0
 		}
 	})
@@ -53,7 +45,7 @@ window.onload = function () {
 	})
 
 	function startGame() {
-		console.log('start game')
+		// console.log('start game')
 		game.start()
 	}
 }

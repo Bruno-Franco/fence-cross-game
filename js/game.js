@@ -30,6 +30,7 @@ class Game {
 		this.gameIsOver = false
 		this.gameIntervalId
 		this.gameLoopFrequency = Math.round(1000 / 60)
+		this.liveInHtml = document.getElementById('lives')
 	}
 	start() {
 		// HIDE START SCREEN
@@ -41,6 +42,8 @@ class Game {
 		this.gameScreen.style.height = `${this.height}px`
 		this.gameScreen.style.width = `${this.width}px`
 
+		// CREATES A NEW UFO
+
 		// SCREEN REFRESH RATE 60 FPS - FRAMES PER SECOND
 		// CREATES MOVIMENT LOOPING THE UPDATES STATES OF THE GAME
 		this.gameIntervalId = setInterval(() => {
@@ -49,22 +52,66 @@ class Game {
 	}
 
 	gameLoop() {
-		// console.warn('IN THE LOOP GAME!')
 		// CHECK IF GAME IS OVER
 		// IF YES STOPS - INTERVAL, THE LOOP
 		// ANS STOPS UPDATE (GAME STATE) AS WELL
-		if (this.gameIsOver) return clearInterval(this.gameIntervalId)
+		if (this.gameIsOver) {
+			clearInterval(this.gameIntervalId)
+			clearInterval(this.newUfo)
+		}
 
 		// UPDATE PASS NEW GAME STATE TO THE LOOP
 		this.update()
 	}
 
 	update() {
-		// console.warn('IN THE UPDATE GAME!')
 		// RECEIVES ALL UPDATES FROM INSTANCES
+		this.player.move()
 
 		// UPDATE ALL PLAYER MOVEMENTS
-		this.player.move()
-		this.obstacles[0].move()
+		this.obstacles.forEach((obstacle) => {
+			obstacle.move()
+			// REMOVE LIVES IF EXISTS COLISIONS
+
+			if (this.player.didCollide(obstacle)) {
+				this.lives--
+				this.liveInHtml.innerText = this.lives
+				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
+				obstacle.element.src = '../images/explode.png'
+
+				setTimeout(() => {
+					obstacle.element.style.opacity = 0.8
+				}, 500)
+				setTimeout(() => {
+					obstacle.element.style.opacity = 0.6
+				}, 1000)
+				setTimeout(() => {
+					obstacle.element.style.opacity = 0.3
+				}, 1500)
+				setTimeout(() => {
+					obstacle.element.style.opacity = 0.1
+					obstacle.element.remove()
+				}, 1500)
+			} else if (obstacle.top > 550) {
+				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
+				obstacle.element.remove()
+			}
+		})
+		if (Math.random() > 0.25 && this.obstacles.length < 1) {
+			this.obstacles.push(new Obstacle(this.gameScreen))
+		}
+
+		if (this.lives === 0) {
+			this.endGame()
+		}
+	}
+	endGame() {
+		this.player.element.remove()
+		this.obstacles.forEach((obstacle) => {
+			obstacle.element.remove()
+		})
+		this.gameIsOver = true
+		this.gameScreen.style.display = 'none'
+		this.gameEndScreen.style.display = 'block'
 	}
 }
