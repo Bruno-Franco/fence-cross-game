@@ -24,7 +24,7 @@ window.onload = function () {
 		} else if (e.code === 'ArrowRight') {
 			game.player.directionX = 3
 		} else if (e.code === 'Space') {
-			console.log('SHOOT!!! ')
+			game.player.shoot()
 		}
 	})
 	window.addEventListener('keyup', (e) => {
