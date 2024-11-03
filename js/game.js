@@ -24,7 +24,7 @@ class Game {
 		// ALL HIS BEHAVIOUR WILL BE GRABBED BY GAME UPDATE
 		// (UPDATING OBSTACLES STATE)
 		// AND PASSED TO THE GAME LOOP
-		this.obstacles = []
+		this.obstacles = [new Obstacle(this.gameScreen)]
 		this.score = 0
 		this.lives = 3
 		this.gameIsOver = false
@@ -65,5 +65,6 @@ class Game {
 
 		// UPDATE ALL PLAYER MOVEMENTS
 		this.player.move()
+		this.obstacles[0].move()
 	}
 }
