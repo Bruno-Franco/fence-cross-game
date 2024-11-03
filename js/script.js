@@ -40,6 +40,10 @@ window.onload = function () {
 		}
 	})
 
+	restartButton.addEventListener('click', () => {
+		startGame()
+	})
+
 	startButton.addEventListener('click', function () {
 		startGame()
 	})

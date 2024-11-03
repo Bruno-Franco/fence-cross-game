@@ -8,14 +8,7 @@ class Game {
 		// ALL HIS BEHAVIOUR WILL BE GRABBED BY
 		// GAME UPDATE(UPDATING PLAYER STATE)
 		// AND PASSED TO GAME LOOP (CREATING MOVMENT)
-		this.player = new Player(
-			this.gameScreen,
-			170,
-			500,
-			60,
-			60,
-			'../images/aircraft.png'
-		)
+		this.player
 		// HEIGHT AND WIDTH OF THE SCREEN
 		this.height = 600
 		this.width = 400
@@ -24,10 +17,10 @@ class Game {
 		// ALL HIS BEHAVIOUR WILL BE GRABBED BY GAME UPDATE
 		// (UPDATING OBSTACLES STATE)
 		// AND PASSED TO THE GAME LOOP
-		this.obstacles = [new Obstacle(this.gameScreen)]
+		this.obstacles = []
 		this.score = 0
-		this.lives = 3
-		this.gameIsOver = false
+		this.lives
+		this.gameIsOver
 		this.gameIntervalId
 		this.gameLoopFrequency = Math.round(1000 / 60)
 		this.liveInHtml = document.getElementById('lives')
@@ -49,6 +42,19 @@ class Game {
 		this.gameIntervalId = setInterval(() => {
 			this.gameLoop()
 		}, this.gameLoopFrequency)
+
+		// FOR RESTART
+		this.obstacles = [new Obstacle(this.gameScreen)]
+		this.gameIsOver = false
+		this.lives = 3
+		this.player = new Player(
+			this.gameScreen,
+			170,
+			500,
+			60,
+			60,
+			'../images/aircraft.png'
+		)
 	}
 
 	gameLoop() {

@@ -7,7 +7,7 @@ class Obstacle {
 		this.height = 60
 
 		// LEFT - RANDON POSITIONING THE OVNI IN THE X AXIS
-		this.left = Math.floor(Math.random() * 300 + 70)
+		this.left = Math.floor(Math.random() * 300 + 50)
 
 		// TOP - WHERE THE CAR WILL SPAWN
 		this.top = 0
