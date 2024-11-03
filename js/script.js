@@ -40,6 +40,14 @@ window.onload = function () {
 		}
 	})
 
+	// CALL PLAYER SHOOT EVERYTIME PULL SPACE
+	window.addEventListener('keypress', (e) => {
+		// e.preventDefault()
+		if (e.code === 'Space') {
+			game.player.shoot()
+		}
+	})
+
 	restartButton.addEventListener('click', () => {
 		startGame()
 	})

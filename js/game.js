@@ -27,10 +27,14 @@ class Game {
 		this.score = 0
 		this.level = 0.98
 		this.levelIncreasing
+
+		// GET SCORE IN HTML
+		this.scoreInHtml = document.getElementById('score')
+
 		// GET AND SET LEVEL IN HTML
 		this.levelInHtml = document.getElementById('level')
 		this.levelNumberInHtml = document.getElementById('level-number')
-		this.levelNumber = 1
+		this.levelNumber
 		this.fiveSecRemaining = 10
 		this.timer
 	}
@@ -65,6 +69,7 @@ class Game {
 			'../images/aircraft.png'
 		)
 		this.score = 0
+		this.levelNumber = 1
 
 		// LEVEL INCREASING
 		this.levelIncreasing = setInterval(() => {
@@ -105,13 +110,43 @@ class Game {
 		// UPDATE ALL PLAYER MOVEMENTS
 		this.obstacles.forEach((obstacle) => {
 			obstacle.move(this.levelNumber)
-			// REMOVE LIVES IF EXISTS COLISIONS
 
+			// REMOVE LIVES IF EXISTS COLISIONS
 			if (this.player.didCollide(obstacle)) {
 				this.lives--
 				this.liveInHtml.innerText = this.lives
 				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
 				obstacle.element.src = '../images/explode.png'
+				this.player.element.style.opacity = 0.7
+				setTimeout(() => {
+					obstacle.element.style.opacity = 0.8
+					this.player.element.style.opacity = 0.8
+				}, 500)
+				setTimeout(() => {
+					obstacle.element.style.opacity = 0.6
+					this.player.element.style.opacity = 0.9
+				}, 1000)
+				setTimeout(() => {
+					obstacle.element.style.opacity = 0.3
+					this.player.element.style.opacity = 1
+				}, 1500)
+				setTimeout(() => {
+					obstacle.element.style.opacity = 0.1
+
+					obstacle.element.remove()
+				}, 1500)
+			} else if (obstacle.top > 550) {
+				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
+				obstacle.element.remove()
+			}
+
+			// ADD POINTS TO THE SCORE
+			if (this.player.bulletDidCollide(obstacle)) {
+				this.score += 5
+				this.scoreInHtml.innerText = this.score
+				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
+				obstacle.element.src = '../images/explode.png'
+				this.player.bullet.remove()
 				this.player.element.style.opacity = 0.7
 				setTimeout(() => {
 					obstacle.element.style.opacity = 0.8
