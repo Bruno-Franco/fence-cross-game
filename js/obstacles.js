@@ -10,7 +10,7 @@ class Obstacle {
 		this.left = Math.floor(Math.random() * 300 + 50)
 
 		// TOP - WHERE THE UFO WILL SPAWN
-		this.top = 60
+		this.top = -60
 
 		//  UFO BULLET
 		this.bulletUfo = document.createElement('img')
@@ -42,7 +42,7 @@ class Obstacle {
 	}
 
 	shoot() {
-		// INSERT BBULLETUFO ON SEREEN AND POSITIONING
+		// INSERT BULLETUFO ON SEREEN AND POSITIONING
 		this.gameScreen.appendChild(this.bulletUfo)
 		this.element.style.left = `${this.left - 20}px`
 		this.element.style.top = `${this.top - 40}px`
@@ -51,7 +51,6 @@ class Obstacle {
 		this.top += level
 
 		// BULLETUFO MOVEMENT
-		// this.bulletUfoTop = this.top * 3
 		this.bulletUfoTop = this.top * 3
 
 		this.updatePosition()

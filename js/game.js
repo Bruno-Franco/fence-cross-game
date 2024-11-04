@@ -68,7 +68,7 @@ class Game {
 			500,
 			60,
 			60,
-			'../images/aircraft.png'
+			'../images/battleship.png'
 		)
 
 		// LEVEL INCREASING
