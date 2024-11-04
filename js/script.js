@@ -16,13 +16,13 @@ window.onload = function () {
 	window.addEventListener('keydown', (e) => {
 		e.preventDefault()
 		if (e.code === 'ArrowUp') {
-			game.player.directionY = -3
+			game.player.directionY = -4
 		} else if (e.code === 'ArrowDown') {
-			game.player.directionY = 3
+			game.player.directionY = 4
 		} else if (e.code === 'ArrowLeft') {
-			game.player.directionX = -3
+			game.player.directionX = -4
 		} else if (e.code === 'ArrowRight') {
-			game.player.directionX = 3
+			game.player.directionX = 4
 		} else if (e.code === 'Space') {
 			game.player.shoot()
 		}

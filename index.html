@@ -14,7 +14,49 @@
 				<img src="./images/logo.png" alt="" class="logo-img" />
 				<br />
 				<button id="start-button">Start Game</button>
-				<p>Use the left and right arrow to control the car!</p>
+				<p>
+					Use
+					<br /><span id="left"
+						><img
+							src="./images/left-arrow.png"
+							alt="left key"
+							class="keys"
+						/>
+					</span>
+					,
+					<span id="right"
+						><img
+							src="./images/right-arrow.png"
+							alt="right key"
+							class="keys"
+						/> </span
+					>,
+					<span id="up"
+						><img
+							src="./images/up-arrow.png"
+							alt="up key"
+							class="keys"
+						/> </span
+					>,
+					<span id="down"
+						><img
+							src="./images/down-arrow.png"
+							alt="down key"
+							class="keys"
+						/> </span
+					><br />
+					to control the Spaceship!
+				</p>
+				<p>
+					Kill the Alliens pressing
+					<br /><span id="space"
+						><img
+							src="./images/space.png"
+							alt="space key"
+							class="keys" />
+						<br /></span
+					>!!!
+				</p>
 				<img src="./images/arrows.png" alt="" class="arrows-img" />
 			</div>
 
@@ -23,11 +65,11 @@
 					<h2>Stats</h2>
 					<p>Score: <span id="score">0</span></p>
 					<p>Lives: <span id="lives">3</span></p>
-					<p>Level number: <span id="level-number">0</span></p>
-					<p>New Level In: <span id="level">10sec</span></p>
+					<p>Attack Speed: <span id="level-number">0</span></p>
+					<p>New Wave Speed In: <span id="level">10sec</span></p>
 				</div>
 				<!-- #game-screen is initially hidden using CSS style display: none -->
-				<div id="game-screen" class="clouds"></div>
+				<div id="game-screen"></div>
 			</div>
 
 			<!-- #game-end is initially hidden using CSS style display: none -->

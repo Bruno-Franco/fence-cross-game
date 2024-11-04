@@ -1,9 +1,21 @@
 body {
 	padding: 0;
 	text-align: center;
+	margin: 0;
+	color: white;
+}
+
+main {
+	background-image: url(../images/cover.jpg);
+	background-position: center;
+	background-size: cover;
+	height: 100vh;
 }
 
 #game-intro {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	padding: 20px 0px;
 }
 
@@ -16,14 +28,14 @@ body {
 
 #game-screen {
 	display: none;
-	align-content: center;
+	position: relative;
+	align-content: left;
 	padding: 20px 0px;
 	overflow: hidden;
-	position: relative;
-	background-image: url(../images/sea.png);
+	background-image: url(../images/cloud.png);
 	background-color: lightblue;
 	background-size: 100px 100px;
-	animation: slide 15s linear infinite;
+	animation: slide 10s linear infinite;
 }
 
 @keyframes slide {
@@ -34,35 +46,19 @@ body {
 		background-position: 0 0;
 	}
 	100% {
-		background-position: 0 50px;
+		background-position: 0 60px;
 	}
 }
-
-/* #game-screen.clouds {
-	display: none;
-	align-content: center;
-	padding: 20px 0px;
-	overflow: hidden;
-	position: relative;
-	background-image: url(../images/cloud.png);
-	/* background-color: lightblue; */
-	background-size: 100px 100px;
-	animation: clo-slide 10s linear infinite;
-}
-@keyframes clo-slide {
-	0% {
-		background-position: 0 -1000px;
-	}
-	95% {
-		background-position: 0 0;
-	}
-	100% {
-		background-position: 0 50px;
-	}
-} */
 
 #game-end {
 	display: none;
+}
+
+#start-button ~ p {
+	background-color: rgba(0, 0, 0, 0.7);
+	width: 70%;
+	padding: 20px;
+	margin: 0;
 }
 
 .game-intro p {
@@ -76,6 +72,9 @@ body {
 
 .arrows-img {
 	width: 150px;
+}
+.keys {
+	width: 40px;
 }
 
 body button {

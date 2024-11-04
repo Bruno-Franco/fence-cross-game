@@ -25,7 +25,6 @@ class Game {
 		this.gameLoopFrequency = Math.round(1000 / 60)
 		this.liveInHtml = document.getElementById('lives')
 		this.score = 0
-		this.level = 0.98
 		this.levelIncreasing
 
 		// GET SCORE IN HTML
@@ -43,12 +42,12 @@ class Game {
 		this.startScreen.style.display = 'none'
 		// SHOW GAME SCREEN
 		this.gameScreen.style.display = 'block'
+		// HIDE END SCREEN
+		this.gameEndScreen.style.display = 'none'
 
 		// DEFINE GAME HEIGHT AND WIDTH
 		this.gameScreen.style.height = `${this.height}px`
 		this.gameScreen.style.width = `${this.width}px`
-
-		// CREATES A NEW UFO
 
 		// SCREEN REFRESH RATE 60 FPS - FRAMES PER SECOND
 		// CREATES MOVIMENT LOOPING THE UPDATES STATES OF THE GAME
@@ -60,6 +59,9 @@ class Game {
 		this.obstacles = [new Obstacle(this.gameScreen)]
 		this.gameIsOver = false
 		this.lives = 3
+		this.liveInHtml.innerText = this.lives
+		this.score = 0
+		this.levelNumber = 1
 		this.player = new Player(
 			this.gameScreen,
 			170,
@@ -68,12 +70,9 @@ class Game {
 			60,
 			'../images/aircraft.png'
 		)
-		this.score = 0
-		this.levelNumber = 1
 
 		// LEVEL INCREASING
 		this.levelIncreasing = setInterval(() => {
-			// this.level -= 0.1
 			this.levelNumber++
 		}, 10000)
 
@@ -101,22 +100,44 @@ class Game {
 	}
 
 	update() {
+		// --------------------------------
 		// RECEIVES ALL UPDATES FROM INSTANCES
 		this.player.move()
 
+		// ------------------------------
 		// LEVEL UPDATE
 		this.levelInHtml.innerText = `${this.fiveSecRemaining}sec`
 		this.levelNumberInHtml.innerText = `${this.levelNumber}`
+
+		// ------------------------------
 		// UPDATE ALL PLAYER MOVEMENTS
-		this.obstacles.forEach((obstacle) => {
+		this.obstacles.forEach((obstacle, index) => {
 			obstacle.move(this.levelNumber)
 
+			// -----------
+			// UFO SHOOT
+			obstacle.shoot()
+
+			// ------------------------------
+			// REMOVE FROM SCREEN
+			if (obstacle.top > 650) {
+				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
+				obstacle.element.remove()
+				obstacle.bulletUfo.remove()
+			}
+
+			// ---------------------------------
 			// REMOVE LIVES IF EXISTS COLISIONS
 			if (this.player.didCollide(obstacle)) {
-				this.lives--
-				this.liveInHtml.innerText = this.lives
-				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
+				obstacle.bulletUfo.remove()
 				obstacle.element.src = '../images/explode.png'
+				obstacle.bulletUfo.src = '../images/explode.png'
+
+				this.lives--
+
+				this.liveInHtml.innerText = this.lives
+				this.obstacles.splice(index, 1)
+
 				this.player.element.style.opacity = 0.7
 				setTimeout(() => {
 					obstacle.element.style.opacity = 0.8
@@ -131,49 +152,73 @@ class Game {
 					this.player.element.style.opacity = 1
 				}, 1500)
 				setTimeout(() => {
-					obstacle.element.style.opacity = 0.1
+					obstacle.element.style.opacity = 0.0
 
 					obstacle.element.remove()
 				}, 1500)
-			} else if (obstacle.top > 550) {
-				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
-				obstacle.element.remove()
 			}
 
+			// ---------------------------------
+			// UFOSBULLET HITS PLAYER
+			if (obstacle.bulletUfoDidCollide(this.player)) {
+				this.obstacles.splice(index, 1)
+				this.player.bullet.remove()
+				obstacle.element.remove()
+				this.lives--
+				this.liveInHtml.innerText = this.lives
+
+				obstacle.bulletUfo.src = '../images/explode.png'
+
+				this.player.element.style.opacity = 0.7
+				setTimeout(() => {
+					this.player.element.style.opacity = 0.8
+					obstacle.bulletUfo.style.opacity = 0.8
+				}, 500)
+				setTimeout(() => {
+					this.player.element.style.opacity = 0.9
+					obstacle.bulletUfo.style.opacity = 0.7
+				}, 1000)
+				setTimeout(() => {
+					this.player.element.style.opacity = 1
+					obstacle.bulletUfo.style.opacity = 0.4
+				}, 1500)
+				setTimeout(() => {
+					obstacle.bulletUfo.style.opacity = 0.0
+				}, 1600)
+			}
+
+			// --------------------------------------
 			// ADD POINTS TO THE SCORE
 			if (this.player.bulletDidCollide(obstacle)) {
+				this.player.bullet.remove()
+				obstacle.bulletUfo.remove()
+
 				this.score += 5
 				this.scoreInHtml.innerText = this.score
 				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
 				obstacle.element.src = '../images/explode.png'
-				this.player.bullet.remove()
-				this.player.element.style.opacity = 0.7
-				setTimeout(() => {
-					obstacle.element.style.opacity = 0.8
-					this.player.element.style.opacity = 0.8
-				}, 500)
+				obstacle.element.style.opacity = 0.8
 				setTimeout(() => {
 					obstacle.element.style.opacity = 0.6
-					this.player.element.style.opacity = 0.9
-				}, 1000)
+				}, 100)
 				setTimeout(() => {
-					obstacle.element.style.opacity = 0.3
-					this.player.element.style.opacity = 1
-				}, 1500)
+					obstacle.element.style.opacity = 0.4
+				}, 200)
 				setTimeout(() => {
-					obstacle.element.style.opacity = 0.1
-
+					obstacle.element.style.opacity = 0.0
 					obstacle.element.remove()
-				}, 1500)
-			} else if (obstacle.top > 550) {
-				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
-				obstacle.element.remove()
+				}, 300)
 			}
 		})
-		if (Math.random() > this.level && this.obstacles.length < 1) {
+
+		// ------------------------
+		// ADD RANDOM UFO
+		if (Math.random() > 0.97 && this.obstacles.length < 1) {
 			this.obstacles.push(new Obstacle(this.gameScreen))
 		}
 
+		// -----------------
+		// GAME ENDS
 		if (this.lives === 0) {
 			this.endGame()
 		}
