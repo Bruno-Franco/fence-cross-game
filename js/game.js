@@ -130,9 +130,9 @@ class Game {
 			// REMOVE LIVES IF EXISTS COLISIONS
 			if (this.player.didCollide(obstacle)) {
 				obstacle.bulletUfo.remove()
+				this.player.bullet.remove()
 				obstacle.element.src = '../images/explode.png'
 				obstacle.bulletUfo.src = '../images/explode.png'
-
 				this.lives--
 
 				this.liveInHtml.innerText = this.lives
@@ -163,6 +163,7 @@ class Game {
 			if (obstacle.bulletUfoDidCollide(this.player)) {
 				this.obstacles.splice(index, 1)
 				this.player.bullet.remove()
+				obstacle.bulletUfo.remove()
 				obstacle.element.remove()
 				this.lives--
 				this.liveInHtml.innerText = this.lives

@@ -62,7 +62,7 @@ class Player {
 		this.left += this.directionX
 		this.top += this.directionY
 		// BULLET SPEED GOING UPWARDS
-		this.bulletTop -= 10
+		this.bulletTop -= 15
 
 		if (this.left < 10) {
 			this.left = 10

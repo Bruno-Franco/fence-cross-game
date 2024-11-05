@@ -7,10 +7,11 @@ class Obstacle {
 		this.height = 60
 
 		// LEFT - RANDON POSITIONING THE UFO IN THE X AXIS
-		this.left = Math.floor(Math.random() * 300 + 50)
+		// this.left = Math.floor(Math.random() * 300 + 50)
+		this.left = Math.floor(Math.random() * 250 + 30)
 
 		// TOP - WHERE THE UFO WILL SPAWN
-		this.top = -60
+		this.top = 60
 
 		//  UFO BULLET
 		this.bulletUfo = document.createElement('img')
@@ -37,6 +38,7 @@ class Obstacle {
 		this.element.style.width = `${this.width}px`
 		this.element.style.left = `${this.left}px`
 		this.element.style.top = `${this.top}px`
+		this.element.classList.add('anime')
 
 		this.gameScreen.appendChild(this.element)
 	}
