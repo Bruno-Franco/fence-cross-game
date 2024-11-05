@@ -23,18 +23,6 @@ class Player {
 		// -1 - MOVE UP
 		this.directionY = 0
 
-		// BULLET POSITION
-		this.bulletTop
-		this.bulletLeft
-
-		this.bullet = document.createElement('img')
-		this.bullet.src = '../images/bullet.png'
-		this.bullet.style.position = 'absolute'
-		this.bullet.style.width = `20px`
-		this.bullet.style.height = `20px`
-		this.bullet.style.left = `${left}px`
-		this.bullet.style.top = `${top}px`
-
 		// CREATE PLANE ELEMENT TO INSERT IN THE DOM
 		// WHAT WILL BE? CAR IMAGE, GIF... WHAT
 		this.element = document.createElement('img')
@@ -48,21 +36,10 @@ class Player {
 		// INSERT PLAYER ON GAME SCREEN
 		this.gameScreen.appendChild(this.element)
 	}
-	// FIRE METHOD
-	shoot() {
-		// EVERYTIME I PULL SPACE
-		// INSERT A BULLET ON SCREEN
-		// DEFINE ITS TOP AND LEFT RELATIVE TO THE AIRPLANE
-		this.gameScreen.appendChild(this.bullet)
-		this.bulletTop = `${this.top + 2}`
-		this.bulletLeft = `${this.left + 20}`
-	}
 
 	move() {
 		this.left += this.directionX
 		this.top += this.directionY
-		// BULLET SPEED GOING UPWARDS
-		this.bulletTop -= 15
 
 		if (this.left < 10) {
 			this.left = 10
@@ -85,27 +62,9 @@ class Player {
 	updatePosition() {
 		this.element.style.left = `${this.left}px`
 		this.element.style.top = `${this.top}px`
-		// UPDATING BULLET POSITION ON SCREEN
-		this.bullet.style.top = `${this.bulletTop}px`
-		this.bullet.style.left = `${this.bulletLeft}px`
 	}
 	didCollide(obstacle) {
 		const playerRect = this.element.getBoundingClientRect()
-		const obstacleRect = obstacle.element.getBoundingClientRect()
-
-		if (
-			playerRect.left < obstacleRect.right &&
-			playerRect.right > obstacleRect.left &&
-			playerRect.top < obstacleRect.bottom &&
-			playerRect.bottom > obstacleRect.top
-		) {
-			return true
-		} else {
-			return false
-		}
-	}
-	bulletDidCollide(obstacle) {
-		const playerRect = this.bullet.getBoundingClientRect()
 		const obstacleRect = obstacle.element.getBoundingClientRect()
 
 		if (

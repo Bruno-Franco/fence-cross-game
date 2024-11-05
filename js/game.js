@@ -27,6 +27,10 @@ class Game {
 		this.score = 0
 		this.levelIncreasing
 
+		// SPACESHIP AMNO
+		this.amno = []
+		this.leftAmno = []
+		this.rightAmno = []
 		// GET SCORE IN HTML
 		this.scoreInHtml = document.getElementById('score')
 
@@ -36,6 +40,7 @@ class Game {
 		this.levelNumber
 		this.fiveSecRemaining = 10
 		this.timer
+		this.ufos = 1
 	}
 	start() {
 		// HIDE START SCREEN
@@ -71,10 +76,14 @@ class Game {
 			'../images/battleship.png'
 		)
 
+		this.amno = []
+		this.leftAmno = []
+		this.rightAmno = []
+
 		// LEVEL INCREASING
 		this.levelIncreasing = setInterval(() => {
 			this.levelNumber++
-		}, 10000)
+		}, 15000)
 
 		// LEVEL TIMER
 		this.timer = setInterval(() => {
@@ -110,7 +119,7 @@ class Game {
 		this.levelNumberInHtml.innerText = `${this.levelNumber}`
 
 		// ------------------------------
-		// UPDATE ALL PLAYER MOVEMENTS
+		// UPDATE ALL UFO AND ITS BULLETS MOVEMENTS
 		this.obstacles.forEach((obstacle, index) => {
 			obstacle.move(this.levelNumber)
 
@@ -120,56 +129,22 @@ class Game {
 
 			// ------------------------------
 			// REMOVE FROM SCREEN
-			if (obstacle.top > 650) {
-				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
+			if (obstacle.top > 600) {
+				this.obstacles.splice(index, 1)
 				obstacle.element.remove()
 				obstacle.bulletUfo.remove()
 			}
 
-			// ---------------------------------
-			// REMOVE LIVES IF EXISTS COLISIONS
-			if (this.player.didCollide(obstacle)) {
-				obstacle.bulletUfo.remove()
-				this.player.bullet.remove()
-				obstacle.element.src = '../images/explode.png'
-				obstacle.bulletUfo.src = '../images/explode.png'
-				this.lives--
-
-				this.liveInHtml.innerText = this.lives
-				this.obstacles.splice(index, 1)
-
-				this.player.element.style.opacity = 0.7
-				setTimeout(() => {
-					obstacle.element.style.opacity = 0.8
-					this.player.element.style.opacity = 0.8
-				}, 500)
-				setTimeout(() => {
-					obstacle.element.style.opacity = 0.6
-					this.player.element.style.opacity = 0.9
-				}, 1000)
-				setTimeout(() => {
-					obstacle.element.style.opacity = 0.3
-					this.player.element.style.opacity = 1
-				}, 1500)
-				setTimeout(() => {
-					obstacle.element.style.opacity = 0.0
-
-					obstacle.element.remove()
-				}, 1500)
-			}
-
-			// ---------------------------------
-			// UFOSBULLET HITS PLAYER
+			// ------------------------------
+			// UFO BULLET COLLIDING SPACESHIP
 			if (obstacle.bulletUfoDidCollide(this.player)) {
-				this.obstacles.splice(index, 1)
-				this.player.bullet.remove()
-				obstacle.bulletUfo.remove()
+				// obstacle.bulletUfo.remove()
 				obstacle.element.remove()
-				this.lives--
+				// this.lives--
 				this.liveInHtml.innerText = this.lives
+				this.obstacles.splice(index, 1)
 
 				obstacle.bulletUfo.src = '../images/explode.png'
-
 				this.player.element.style.opacity = 0.7
 				setTimeout(() => {
 					this.player.element.style.opacity = 0.8
@@ -185,36 +160,299 @@ class Game {
 				}, 1500)
 				setTimeout(() => {
 					obstacle.bulletUfo.style.opacity = 0.0
+					obstacle.bulletUfo.remove()
 				}, 1600)
 			}
 
-			// --------------------------------------
-			// ADD POINTS TO THE SCORE
-			if (this.player.bulletDidCollide(obstacle)) {
-				this.player.bullet.remove()
-				obstacle.bulletUfo.remove()
-
-				this.score += 5
-				this.scoreInHtml.innerText = this.score
-				this.obstacles.splice(this.obstacles.indexOf(obstacle, 1))
+			// ----------------------------------
+			// SPACESHIP COLLIDING
+			if (this.player.didCollide(obstacle)) {
+				// ------------------------------
+				// COLLIDING WITH PLAYER(SPACESHIP)
 				obstacle.element.src = '../images/explode.png'
-				obstacle.element.style.opacity = 0.8
+				obstacle.bulletUfo.src = '../images/explode.png'
+
+				// this.lives--
+				this.liveInHtml.innerText = this.lives
+
+				this.obstacles.splice(index, 1)
+				// ----------------------------------------
+				// BULLET DISAPPEARING AND PLAYER RECHARGING
+				this.player.element.style.opacity = 0.7
+				setTimeout(() => {
+					obstacle.element.style.opacity = 0.8
+					obstacle.bulletUfo.style.opacity = 0.8
+					this.player.element.style.opacity = 0.8
+				}, 500)
 				setTimeout(() => {
 					obstacle.element.style.opacity = 0.6
-				}, 100)
+					obstacle.bulletUfo.style.opacity = 0.6
+					this.player.element.style.opacity = 0.9
+				}, 1000)
 				setTimeout(() => {
-					obstacle.element.style.opacity = 0.4
-				}, 200)
+					obstacle.element.style.opacity = 0.3
+					obstacle.bulletUfo.style.opacity = 0.3
+					this.player.element.style.opacity = 1
+				}, 1500)
 				setTimeout(() => {
 					obstacle.element.style.opacity = 0.0
-					obstacle.element.remove()
-				}, 300)
+					obstacle.bulletUfo.style.opacity = 0.0
+					obstacle.bulletUfo.remove()
+				}, 1500)
 			}
 		})
 
+		// -------------------------------
+		// ADD BULLETS TO THE SCREEN AND DISAPPEARING WHEN REACHES
+		// A NEGATIVE NUMBER TOP OF PLAYABLE AREA
+		this.amno.forEach((bullet, index) => {
+			bullet.move()
+			this.obstacles.forEach((obstacle, obsIndex) => {
+				if (bullet.bulletDidCollide(obstacle)) {
+					obstacle.element.src = '../images/explode.png'
+					obstacle.bulletUfo.src = '../images/explode.png'
+					this.obstacles.splice(obsIndex, 1)
+					bullet.bullet.remove()
+					this.amno.splice(index, 1)
+					this.score += 10
+					if (
+						this.score === 100 ||
+						this.score === 150 ||
+						this.score === 200 ||
+						this.score === 250 ||
+						this.score === 300 ||
+						this.score === 350
+					) {
+						this.ufos += 1
+					}
+
+					this.scoreInHtml.innerText = this.score
+					// -----------------------------
+					// OBSTACLES DISAPEARING
+					obstacle.bulletUfo.style.opacity = 0.5
+					setTimeout(() => {
+						obstacle.element.style.opacity = 0.8
+						obstacle.bulletUfo.style.opacity = 0.0
+						obstacle.bulletUfo.remove()
+					}, 500)
+					setTimeout(() => {
+						obstacle.element.style.opacity = 0.6
+					}, 1000)
+					setTimeout(() => {
+						obstacle.element.style.opacity = 0.3
+					}, 1500)
+					setTimeout(() => {
+						obstacle.element.style.opacity = 0.0
+					}, 1500)
+				}
+			})
+			if (bullet.top < 0) {
+				this.amno.splice(index, 1)
+				bullet.bullet.remove()
+			}
+		})
+
+		if (this.score > 100 && this.score < 200) {
+			// -------------------------------
+			// ADD LEFT BULLETS TO THE SCREEN AND DISAPPEARING WHEN RACHES
+			// A NEGATIVE NUMBER TOP OF PLAYABLE AREA
+			this.leftAmno.forEach((bullet, index) => {
+				bullet.move()
+				this.obstacles.forEach((obstacle, obsIndex) => {
+					if (bullet.bulletDidCollide(obstacle)) {
+						obstacle.element.src = '../images/explode.png'
+						obstacle.bulletUfo.src = '../images/explode.png'
+						this.obstacles.splice(obsIndex, 1)
+						bullet.bullet.remove()
+						this.leftAmno.splice(index, 1)
+						this.score += 10
+						if (
+							this.score === 100 ||
+							this.score === 150 ||
+							this.score === 200 ||
+							this.score === 250 ||
+							this.score === 300 ||
+							this.score === 350
+						) {
+							this.ufos += 1
+						}
+						this.scoreInHtml.innerText = this.score
+						// -----------------------------
+						// OBSTACLES DISAPEARING
+						obstacle.bulletUfo.style.opacity = 0.5
+						setTimeout(() => {
+							obstacle.element.style.opacity = 0.8
+							obstacle.bulletUfo.style.opacity = 0.0
+							obstacle.bulletUfo.remove()
+						}, 500)
+						setTimeout(() => {
+							obstacle.element.style.opacity = 0.6
+						}, 1000)
+						setTimeout(() => {
+							obstacle.element.style.opacity = 0.3
+						}, 1500)
+						setTimeout(() => {
+							obstacle.element.style.opacity = 0.0
+						}, 1500)
+					}
+				})
+				if (bullet.top < 0) {
+					this.leftAmno.splice(index, 1)
+					bullet.bullet.remove()
+				}
+			})
+
+			// -------------------------------
+			// ADD RIGHT BULLETS TO THE SCREEN AND DISAPPEARING WHEN REACHES
+			// A NEGATIVE NUMBER TOP OF PLAYABLE AREA
+			this.rightAmno.forEach((bullet, index) => {
+				bullet.move()
+				this.obstacles.forEach((obstacle, obsIndex) => {
+					if (bullet.bulletDidCollide(obstacle)) {
+						obstacle.element.src = '../images/explode.png'
+						obstacle.bulletUfo.src = '../images/explode.png'
+						this.obstacles.splice(obsIndex, 1)
+						bullet.bullet.remove()
+						this.rightAmno.splice(index, 1)
+						this.score += 10
+						if (
+							this.score === 100 ||
+							this.score === 150 ||
+							this.score === 200 ||
+							this.score === 250 ||
+							this.score === 300 ||
+							this.score === 350
+						) {
+							this.ufos += 1
+						}
+						this.scoreInHtml.innerText = this.score
+						// -----------------------------
+						// OBSTACLES DISAPEARING
+						obstacle.bulletUfo.style.opacity = 0.5
+						setTimeout(() => {
+							obstacle.element.style.opacity = 0.8
+							obstacle.bulletUfo.style.opacity = 0.0
+							obstacle.bulletUfo.remove()
+						}, 500)
+						setTimeout(() => {
+							obstacle.element.style.opacity = 0.6
+						}, 1000)
+						setTimeout(() => {
+							obstacle.element.style.opacity = 0.3
+						}, 1500)
+						setTimeout(() => {
+							obstacle.element.style.opacity = 0.0
+						}, 1500)
+					}
+				})
+				if (bullet.top < 0) {
+					this.rightAmno.splice(index, 1)
+					bullet.bullet.remove()
+				}
+			})
+		}
+
+		// // -------------------------------
+		// // ADD LEFT BULLETS TO THE SCREEN AND DISAPPEARING WHEN RACHES
+		// // A NEGATIVE NUMBER TOP OF PLAYABLE AREA
+		// this.leftAmno.forEach((bullet, index) => {
+		// 	bullet.move()
+		// 	this.obstacles.forEach((obstacle, obsIndex) => {
+		// 		if (bullet.bulletDidCollide(obstacle)) {
+		// 			obstacle.element.src = '../images/explode.png'
+		// 			obstacle.bulletUfo.src = '../images/explode.png'
+		// 			this.obstacles.splice(obsIndex, 1)
+		// 			bullet.bullet.remove()
+		// 			this.leftAmno.splice(index, 1)
+		// 			this.score += 10
+		// 			if (
+		// 				this.score === 100 ||
+		// 				this.score === 150 ||
+		// 				this.score === 200 ||
+		// 				this.score === 250 ||
+		// 				this.score === 300 ||
+		// 				this.score === 350
+		// 			) {
+		// 				this.ufos += 1
+		// 			}
+		// 			this.scoreInHtml.innerText = this.score
+		// 			// -----------------------------
+		// 			// OBSTACLES DISAPEARING
+		// 			obstacle.bulletUfo.style.opacity = 0.5
+		// 			setTimeout(() => {
+		// 				obstacle.element.style.opacity = 0.8
+		// 				obstacle.bulletUfo.style.opacity = 0.0
+		// 				obstacle.bulletUfo.remove()
+		// 			}, 500)
+		// 			setTimeout(() => {
+		// 				obstacle.element.style.opacity = 0.6
+		// 			}, 1000)
+		// 			setTimeout(() => {
+		// 				obstacle.element.style.opacity = 0.3
+		// 			}, 1500)
+		// 			setTimeout(() => {
+		// 				obstacle.element.style.opacity = 0.0
+		// 			}, 1500)
+		// 		}
+		// 	})
+		// 	if (bullet.top < 0) {
+		// 		this.leftAmno.splice(index, 1)
+		// 		bullet.bullet.remove()
+		// 	}
+		// })
+
+		// // -------------------------------
+		// // ADD RIGHT BULLETS TO THE SCREEN AND DISAPPEARING WHEN REACHES
+		// // A NEGATIVE NUMBER TOP OF PLAYABLE AREA
+		// this.rightAmno.forEach((bullet, index) => {
+		// 	bullet.move()
+		// 	this.obstacles.forEach((obstacle, obsIndex) => {
+		// 		if (bullet.bulletDidCollide(obstacle)) {
+		// 			obstacle.element.src = '../images/explode.png'
+		// 			obstacle.bulletUfo.src = '../images/explode.png'
+		// 			this.obstacles.splice(obsIndex, 1)
+		// 			bullet.bullet.remove()
+		// 			this.rightAmno.splice(index, 1)
+		// 			this.score += 10
+		// 			if (
+		// 				this.score === 100 ||
+		// 				this.score === 150 ||
+		// 				this.score === 200 ||
+		// 				this.score === 250 ||
+		// 				this.score === 300 ||
+		// 				this.score === 350
+		// 			) {
+		// 				this.ufos += 1
+		// 			}
+		// 			this.scoreInHtml.innerText = this.score
+		// 			// -----------------------------
+		// 			// OBSTACLES DISAPEARING
+		// 			obstacle.bulletUfo.style.opacity = 0.5
+		// 			setTimeout(() => {
+		// 				obstacle.element.style.opacity = 0.8
+		// 				obstacle.bulletUfo.style.opacity = 0.0
+		// 				obstacle.bulletUfo.remove()
+		// 			}, 500)
+		// 			setTimeout(() => {
+		// 				obstacle.element.style.opacity = 0.6
+		// 			}, 1000)
+		// 			setTimeout(() => {
+		// 				obstacle.element.style.opacity = 0.3
+		// 			}, 1500)
+		// 			setTimeout(() => {
+		// 				obstacle.element.style.opacity = 0.0
+		// 			}, 1500)
+		// 		}
+		// 	})
+		// 	if (bullet.top < 0) {
+		// 		this.rightAmno.splice(index, 1)
+		// 		bullet.bullet.remove()
+		// 	}
+		// })
+
 		// ------------------------
 		// ADD RANDOM UFO
-		if (Math.random() > 0.97 && this.obstacles.length < 1) {
+		if (Math.random() > 0.98 && this.obstacles.length < this.ufos) {
 			this.obstacles.push(new Obstacle(this.gameScreen))
 		}
 

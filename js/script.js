@@ -14,7 +14,6 @@ window.onload = function () {
 
 	// ADD LISTENERS TO THE ARROW KEYS ON THE KEYBOARD
 	window.addEventListener('keydown', (e) => {
-		e.preventDefault()
 		if (e.code === 'ArrowUp') {
 			game.player.directionY = -4
 		} else if (e.code === 'ArrowDown') {
@@ -24,7 +23,11 @@ window.onload = function () {
 		} else if (e.code === 'ArrowRight') {
 			game.player.directionX = 4
 		} else if (e.code === 'Space') {
-			game.player.shoot()
+			let bulletLeftPos = game.player.left + 20
+			let bulletTopPos = game.player.top + 2
+			game.amno.push(new Bullet(bulletLeftPos, bulletTopPos))
+			game.leftAmno.push(new LeftBullet(bulletLeftPos, bulletTopPos))
+			game.leftAmno.push(new RightBullet(bulletLeftPos, bulletTopPos))
 		}
 	})
 	window.addEventListener('keyup', (e) => {
@@ -37,14 +40,6 @@ window.onload = function () {
 			game.player.directionX = 0
 		} else if (e.code === 'ArrowRight') {
 			game.player.directionX = 0
-		}
-	})
-
-	// CALL PLAYER SHOOT EVERYTIME PULL SPACE
-	window.addEventListener('keypress', (e) => {
-		// e.preventDefault()
-		if (e.code === 'Space') {
-			game.player.shoot()
 		}
 	})
 
