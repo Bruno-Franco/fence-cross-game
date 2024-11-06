@@ -10,7 +10,7 @@ class Game {
 		// AND PASSED TO GAME LOOP (CREATING MOVMENT)
 		this.player
 		// HEIGHT AND WIDTH OF THE SCREEN
-		this.height = 500
+		this.height = 700
 		this.width = 400
 		// THIS.OBSTACLES RECEIVES A FEW OBSTACLES INSTANCES WITH ALL
 		// OF ITS METOHDS
@@ -168,7 +168,7 @@ class Game {
 
 			// ------------------------------
 			// REMOVE FROM SCREEN
-			if (obstacle.top > 600) {
+			if (obstacle.top > 700) {
 				this.obstacles.splice(index, 1)
 				obstacle.element.remove()
 				obstacle.bulletUfo.remove()
