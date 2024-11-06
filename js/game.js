@@ -10,7 +10,7 @@ class Game {
 		// AND PASSED TO GAME LOOP (CREATING MOVMENT)
 		this.player
 		// HEIGHT AND WIDTH OF THE SCREEN
-		this.height = 600
+		this.height = 500
 		this.width = 400
 		// THIS.OBSTACLES RECEIVES A FEW OBSTACLES INSTANCES WITH ALL
 		// OF ITS METOHDS

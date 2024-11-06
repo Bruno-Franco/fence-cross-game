@@ -67,15 +67,15 @@ window.onload = function () {
 		} else if (e.code === 'Space') {
 			let bulletLeftPos = game.player.left + 20
 			let bulletTopPos = game.player.top + 2
-
-			center.start(bulletLeftPos, bulletTopPos)
-
-			if (game.score >= 50 && game.score < 250) {
-				laterals.start(bulletLeftPos, bulletTopPos)
-			} else if (game.score >= 300 && game.score < 500) {
-				laterals.start(bulletLeftPos, bulletTopPos)
-			} else if (game.score >= 800) {
-				laterals.start(bulletLeftPos, bulletTopPos)
+			switch (true) {
+				case game.score >= 50 && game.score < 250:
+				case game.score >= 300 && game.score < 500:
+				case game.score >= 800:
+					center.start(bulletLeftPos, bulletTopPos)
+					laterals.start(bulletLeftPos, bulletTopPos)
+					break
+				default:
+					center.start(bulletLeftPos, bulletTopPos)
 			}
 		}
 	})
@@ -97,10 +97,7 @@ window.onload = function () {
 
 	restartButton.addEventListener('click', () => {
 		game.btnRestart.play()
-		game.radioStart.play()
 
-		game.gameMusic.volume = 0.3
-		game.gameMusic.play()
 		startGame()
 	})
 
@@ -108,8 +105,10 @@ window.onload = function () {
 		game.btnAudio.play()
 		game.radioStart.play()
 		// game.gameMusic.load()
-		game.gameMusic.volume = 0.3
-		game.gameMusic.play()
+		setInterval(() => {
+			game.gameMusic.volume = 0.3
+			game.gameMusic.play()
+		}, 5000)
 
 		startGame()
 	})

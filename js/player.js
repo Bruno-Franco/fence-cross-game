@@ -53,8 +53,8 @@ class Player {
 			this.left = this.gameScreen.offsetWidth - this.width - 10
 		}
 
-		if (this.top > this.gameScreen.offsetHeight - this.height - 100) {
-			this.top = this.gameScreen.offsetHeight - this.height - 100
+		if (this.top > this.gameScreen.offsetHeight - this.height - 10) {
+			this.top = this.gameScreen.offsetHeight - this.height - 10
 		}
 
 		this.updatePosition()
