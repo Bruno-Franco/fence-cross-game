@@ -38,7 +38,6 @@ class Obstacle {
 		this.element.style.width = `${this.width}px`
 		this.element.style.left = `${this.left}px`
 		this.element.style.top = `${this.top}px`
-		// this.element.classList.add('anime')
 
 		this.gameScreen.appendChild(this.element)
 	}

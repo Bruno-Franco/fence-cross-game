@@ -23,11 +23,21 @@ window.onload = function () {
 		} else if (e.code === 'ArrowRight') {
 			game.player.directionX = 4
 		} else if (e.code === 'Space') {
+			game.blasteShot.play()
 			let bulletLeftPos = game.player.left + 20
 			let bulletTopPos = game.player.top + 2
 			game.amno.push(new Bullet(bulletLeftPos, bulletTopPos))
-			game.leftAmno.push(new LeftBullet(bulletLeftPos, bulletTopPos))
-			game.leftAmno.push(new RightBullet(bulletLeftPos, bulletTopPos))
+
+			if (game.score >= 50 && game.score < 200) {
+				game.leftAmno.push(new LeftBullet(bulletLeftPos, bulletTopPos))
+				game.leftAmno.push(new RightBullet(bulletLeftPos, bulletTopPos))
+			} else if (game.score >= 600 && game.score < 700) {
+				game.leftAmno.push(new LeftBullet(bulletLeftPos, bulletTopPos))
+				game.leftAmno.push(new RightBullet(bulletLeftPos, bulletTopPos))
+			} else if (game.score >= 2000) {
+				game.leftAmno.push(new LeftBullet(bulletLeftPos, bulletTopPos))
+				game.leftAmno.push(new RightBullet(bulletLeftPos, bulletTopPos))
+			}
 		}
 	})
 	window.addEventListener('keyup', (e) => {
