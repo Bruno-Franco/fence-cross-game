@@ -44,17 +44,17 @@ class Game {
 
 		// ------------------------------
 		// AUDIO
-		this.explosion = new Audio('../sounds/bit-cannon.mp3')
-		this.blasteShot = new Audio('../sounds/blaster-shot.mp3')
-		this.gOver = new Audio('../sounds/game-over.mp3')
-		this.countDown = new Audio('../sounds/countdown-sound.mp3')
-		this.nLevel = new Audio('../sounds/next-level.mp3')
-		this.btnAudio = new Audio('../sounds/button.mp3')
-		this.btnRestart = new Audio('../sounds/whoo-hoo.mp3')
-		this.getShot = new Audio('../sounds/e-oh.mp3')
-		this.radioStart = new Audio('../sounds/military-radio.mp3')
+		this.explosion = new Audio('sounds/bit-cannon.mp3')
+		this.blasteShot = new Audio('sounds/blaster-shot.mp3')
+		this.gOver = new Audio('sounds/game-over.mp3')
+		this.countDown = new Audio('sounds/countdown-sound.mp3')
+		this.nLevel = new Audio('sounds/next-level.mp3')
+		this.btnAudio = new Audio('sounds/button.mp3')
+		this.btnRestart = new Audio('sounds/whoo-hoo.mp3')
+		this.getShot = new Audio('sounds/e-oh.mp3')
+		this.radioStart = new Audio('sounds/military-radio.mp3')
 		this.gameMusic = new Audio(
-			'../sounds/cool-rock-energetic-motivational-solo-guitar-244704.mp3'
+			'sounds/cool-rock-energetic-motivational-solo-guitar-244704.mp3'
 		)
 	}
 
@@ -101,7 +101,7 @@ class Game {
 			500,
 			60,
 			60,
-			'../images/battleship.png'
+			'images/battleship.png'
 		)
 
 		this.amno
@@ -185,7 +185,7 @@ class Game {
 				this.liveInHtml.innerText = this.lives
 				this.obstacles.splice(index, 1)
 
-				obstacle.bulletUfo.src = '../images/explode.png'
+				obstacle.bulletUfo.src = 'images/explode.png'
 				this.player.element.style.opacity = 0.7
 				setTimeout(() => {
 					this.player.element.style.opacity = 0.8
@@ -212,8 +212,8 @@ class Game {
 				// COLLIDING WITH PLAYER(SPACESHIP)
 				this.getShot.volume = 0.5
 				this.getShot.play()
-				obstacle.element.src = '../images/explode.png'
-				obstacle.bulletUfo.src = '../images/explode.png'
+				obstacle.element.src = 'images/explode.png'
+				obstacle.bulletUfo.src = 'images/explode.png'
 
 				this.lives--
 				this.liveInHtml.innerText = this.lives
@@ -252,8 +252,8 @@ class Game {
 			bullet.move()
 			this.obstacles.forEach((obstacle, obsIndex) => {
 				if (bullet.bulletDidCollide(obstacle)) {
-					obstacle.element.src = '../images/explode.png'
-					obstacle.bulletUfo.src = '../images/explode.png'
+					obstacle.element.src = 'images/explode.png'
+					obstacle.bulletUfo.src = 'images/explode.png'
 					this.obstacles.splice(obsIndex, 1)
 					bullet.bullet.remove()
 					this.amno.splice(index, 1)
@@ -295,8 +295,8 @@ class Game {
 			bullet.move()
 			this.obstacles.forEach((obstacle, obsIndex) => {
 				if (bullet.bulletDidCollide(obstacle)) {
-					obstacle.element.src = '../images/explode.png'
-					obstacle.bulletUfo.src = '../images/explode.png'
+					obstacle.element.src = 'images/explode.png'
+					obstacle.bulletUfo.src = 'images/explode.png'
 					this.obstacles.splice(obsIndex, 1)
 					bullet.bullet.remove()
 					this.leftAmno.splice(index, 1)
@@ -338,8 +338,8 @@ class Game {
 			bullet.move()
 			this.obstacles.forEach((obstacle, obsIndex) => {
 				if (bullet.bulletDidCollide(obstacle)) {
-					obstacle.element.src = '../images/explode.png'
-					obstacle.bulletUfo.src = '../images/explode.png'
+					obstacle.element.src = 'images/explode.png'
+					obstacle.bulletUfo.src = 'images/explode.png'
 					this.obstacles.splice(obsIndex, 1)
 					bullet.bullet.remove()
 					this.rightAmno.splice(index, 1)

@@ -15,7 +15,7 @@ class Obstacle {
 
 		//  UFO BULLET
 		this.bulletUfo = document.createElement('img')
-		this.bulletUfo.src = '../images/ufo_bullet.png'
+		this.bulletUfo.src = 'images/ufo_bullet.png'
 		this.bulletUfo.style.position = 'absolute'
 		this.bulletUfo.style.width = `20px`
 		this.bulletUfo.style.height = `20px`
@@ -32,7 +32,7 @@ class Obstacle {
 
 		// CREATE THE UFO IMG
 		this.element = document.createElement('img')
-		this.element.src = `../images/ufo.png`
+		this.element.src = `images/ufo.png`
 		this.element.style.position = 'absolute'
 		this.element.style.height = `${this.height}px`
 		this.element.style.width = `${this.width}px`

@@ -14,7 +14,7 @@ class Bullet {
 		this.bulletLeft = `${this.left + 20}`
 
 		this.bullet = document.createElement('img')
-		this.bullet.src = '../images/bullet.png'
+		this.bullet.src = 'images/bullet.png'
 		this.bullet.style.position = 'absolute'
 		this.bullet.style.width = `20px`
 		this.bullet.style.height = `20px`
