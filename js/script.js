@@ -96,10 +96,21 @@ window.onload = function () {
 	})
 
 	restartButton.addEventListener('click', () => {
+		game.btnRestart.play()
+		game.radioStart.play()
+
+		game.gameMusic.volume = 0.3
+		game.gameMusic.play()
 		startGame()
 	})
 
 	startButton.addEventListener('click', function () {
+		game.btnAudio.play()
+		game.radioStart.play()
+		// game.gameMusic.load()
+		game.gameMusic.volume = 0.3
+		game.gameMusic.play()
+
 		startGame()
 	})
 

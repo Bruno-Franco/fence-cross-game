@@ -33,17 +33,29 @@ class Game {
 		this.rightAmno = []
 		// GET SCORE IN HTML
 		this.scoreInHtml = document.getElementById('score')
-
-		// GET AND SET LEVEL IN HTML
+		// -----------------------------
+		// GET AND SET LEVEL IN HTML AND TIMERS
 		this.levelInHtml = document.getElementById('level')
 		this.levelNumberInHtml = document.getElementById('level-number')
 		this.levelNumber
-		this.fiveSecRemaining = 10
+		this.fiveSecRemaining = 15
 		this.timer
 		this.ufos = 1
-		// AUDIO EXPLOSION
+
+		// ------------------------------
+		// AUDIO
 		this.explosion = new Audio('../sounds/bit-cannon.mp3')
 		this.blasteShot = new Audio('../sounds/blaster-shot.mp3')
+		this.gOver = new Audio('../sounds/game-over.mp3')
+		this.countDown = new Audio('../sounds/countdown-sound.mp3')
+		this.nLevel = new Audio('../sounds/next-level.mp3')
+		this.btnAudio = new Audio('../sounds/button.mp3')
+		this.btnRestart = new Audio('../sounds/whoo-hoo.mp3')
+		this.getShot = new Audio('../sounds/e-oh.mp3')
+		this.radioStart = new Audio('../sounds/military-radio.mp3')
+		this.gameMusic = new Audio(
+			'../sounds/cool-rock-energetic-motivational-solo-guitar-244704.mp3'
+		)
 	}
 
 	// if (
@@ -99,7 +111,8 @@ class Game {
 		this.leftAmno = []
 		this.rightAmno = []
 		this.ufos = 1
-
+		// ----------------------------
+		// TIMERS
 		// LEVEL INCREASING
 		this.levelIncreasing = setInterval(() => {
 			this.levelNumber++
@@ -109,8 +122,13 @@ class Game {
 		// LEVEL TIMER
 		this.timer = setInterval(() => {
 			this.fiveSecRemaining--
+			if (this.fiveSecRemaining === 4) {
+				this.countDown.play()
+			}
 			if (this.fiveSecRemaining === 0) {
-				this.fiveSecRemaining = 10
+				this.nLevel.volume = 0.5
+				this.nLevel.play()
+				this.fiveSecRemaining = 15
 			}
 		}, 1000)
 	}
@@ -160,6 +178,8 @@ class Game {
 			// UFO BULLET COLLIDING SPACESHIP
 			if (obstacle.bulletUfoDidCollide(this.player)) {
 				// obstacle.bulletUfo.remove()
+				this.getShot.volume = 0.5
+				this.getShot.play()
 				obstacle.element.remove()
 				this.lives--
 				this.liveInHtml.innerText = this.lives
@@ -190,6 +210,8 @@ class Game {
 			if (this.player.didCollide(obstacle)) {
 				// ------------------------------
 				// COLLIDING WITH PLAYER(SPACESHIP)
+				this.getShot.volume = 0.5
+				this.getShot.play()
 				obstacle.element.src = '../images/explode.png'
 				obstacle.bulletUfo.src = '../images/explode.png'
 
@@ -365,6 +387,8 @@ class Game {
 		}
 	}
 	endGame() {
+		this.gameMusic.pause()
+		this.gOver.play()
 		this.player.element.remove()
 		this.obstacles.forEach((obstacle) => {
 			obstacle.element.remove()
